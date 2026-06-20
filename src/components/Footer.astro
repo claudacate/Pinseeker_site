@@ -6,6 +6,10 @@ interface Props { lang?: Locale }
 const { lang = defaultLocale } = Astro.props;
 const t = getContent(lang).footer;
 const year = new Date().getFullYear();
+const socials = [
+  { name: "YouTube", url: site.social.youtube },
+  { name: "Instagram", url: site.social.instagram },
+].filter((s) => s.url);
 ---
 
 <footer class="footer">
@@ -13,6 +17,16 @@ const year = new Date().getFullYear();
     <div class="footer__brand">
       <span class="footer__wordmark">PinSeeker</span>
       <p class="footer__tagline">{t.tagline}</p>
+      {socials.length > 0 && (
+        <div class="footer__social">
+          <span class="footer__colhead">{t.follow}</span>
+          <div class="footer__social-links">
+            {socials.map((s) => (
+              <a href={s.url} target="_blank" rel="noopener">{s.name}</a>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
 
     <nav class="footer__links" aria-label="Footer">
@@ -52,6 +66,15 @@ const year = new Date().getFullYear();
   .footer__links, .footer__legal { display: flex; flex-direction: column; gap: 0.6rem; }
   .footer__links a, .footer__legal a { color: var(--text-dim); font-size: 0.95rem; }
   .footer__links a:hover, .footer__legal a:hover { color: var(--text); }
+
+  .footer__social { margin-top: 1.1rem; }
+  .footer__colhead {
+    font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-faint);
+  }
+  .footer__social-links { display: flex; gap: 1rem; margin-top: 0.5rem; }
+  .footer__social-links a { color: var(--text-dim); font-size: 0.95rem; }
+  .footer__social-links a:hover { color: var(--accent); }
 
   .footer__bottom {
     margin-top: 2.5rem;

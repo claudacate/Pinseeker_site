@@ -26,13 +26,6 @@ export const ja: DeepPartial<SiteContent> = {
       { title: "登録不要", body: "アカウントもクラウドログインも不要。プロフィールを作ったらすぐパット。" },
     ],
   },
-  video: {
-    eyebrow: "実際の動作",
-    h2: "PinSeekerの<em>動き</em>を見る。",
-    lead: "1分の映像 — セットアップ、パット、そして返ってくる数値。",
-    playLabel: "ムービーを再生",
-  },
-
   how: {
     eyebrow: "使い方",
     h2: "3ステップ。<em>約1分</em>で設定完了。",
@@ -140,6 +133,7 @@ export const ja: DeepPartial<SiteContent> = {
     privacy: "プライバシー",
     terms: "利用規約",
     support: "サポート",
+    follow: "フォロー",
     rights: "全著作権所有。",
   },
 };

@@ -30,13 +30,6 @@ export const en = {
     ],
   },
 
-  video: {
-    eyebrow: "See it in action",
-    h2: "Watch PinSeeker <em>work.</em>",
-    lead: "A one-minute film — setup, putt, and the numbers that come back.",
-    playLabel: "Play the film",
-  },
-
   how: {
     eyebrow: "How it works",
     h2: "Three steps. <em>About a minute</em> to set up.",
@@ -151,6 +144,7 @@ export const en = {
     privacy: "Privacy",
     terms: "Terms",
     support: "Support",
+    follow: "Follow",
     rights: "All rights reserved.",
   },
 } as const;

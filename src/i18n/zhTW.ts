@@ -26,13 +26,6 @@ export const zhTW: DeepPartial<SiteContent> = {
       { title: "免註冊", body: "沒有帳號、不必雲端登入。建好個人檔案就能開推。" },
     ],
   },
-  video: {
-    eyebrow: "實際運作",
-    h2: "看 PinSeeker <em>運作</em>。",
-    lead: "一分鐘短片 — 設定、推桿，以及回饋的數據。",
-    playLabel: "播放影片",
-  },
-
   how: {
     eyebrow: "使用方式",
     h2: "三個步驟。<em>約一分鐘</em>完成設定。",
@@ -140,6 +133,7 @@ export const zhTW: DeepPartial<SiteContent> = {
     privacy: "隱私權",
     terms: "使用條款",
     support: "支援",
+    follow: "追蹤",
     rights: "保留一切權利。",
   },
 };

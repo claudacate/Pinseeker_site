@@ -4,7 +4,7 @@
  */
 
 export const site = {
-  name: "PinSeeker",
+  name: "TempoSeeker",
   tagline: "Camera-based putting coach · iPhone",
 
   // ┌──────────────────────────────────────────────────────────────────┐
@@ -13,7 +13,7 @@ export const site = {
   // │  Format: https://apps.apple.com/app/<slug>/id<10-digit-id>        │
   // │  Every "Download on the App Store" badge on the site points here. │
   // └──────────────────────────────────────────────────────────────────┘
-  appStoreUrl: "https://apps.apple.com/app/pinseeker/id0000000000",
+  appStoreUrl: "https://apps.apple.com/app/temposeeker/id0000000000",
 
   // Social channels — paste full URLs once the channels exist. Each footer
   // link auto-hides while its URL is empty.

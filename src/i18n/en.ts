@@ -5,9 +5,9 @@ import { site } from "../config";
  * for the amber emphasis word and are rendered with set:html. */
 export const en = {
   meta: {
-    title: "PinSeeker — Camera-based putting coach for iPhone",
+    title: "TempoSeeker — Camera-based putting coach for iPhone",
     description:
-      "PinSeeker reads your putting stroke through your iPhone camera — tempo, ball speed, distance and direction. No hardware. Train the same pendulum rhythm the Tour uses.",
+      "TempoSeeker reads your putting stroke through your iPhone camera — tempo, ball speed, distance and direction. No hardware. Train the same pendulum rhythm the Tour uses.",
   },
 
   common: {
@@ -19,7 +19,7 @@ export const en = {
   hero: {
     eyebrow: "Camera-based putting coach · iPhone",
     h1: "Putt like the Tour trains — with the <em>iPhone</em> in your pocket.",
-    lead: "PinSeeker reads your stroke through the camera: tempo, ball speed, distance and direction. No hardware. Just your phone and a mat.",
+    lead: "TempoSeeker reads your stroke through the camera: tempo, ball speed, distance and direction. No hardware. Just your phone and a mat.",
   },
 
   trust: {
@@ -34,7 +34,7 @@ export const en = {
     eyebrow: "How it works",
     h2: "Three steps. <em>About a minute</em> to set up.",
     steps: [
-      { n: "01", title: "Set the phone beside the mat", body: "Stand your phone on a tripod to the side of the mat, about chest height, aimed down the lane. Keep your ball-to-target line parallel to the phone's long edge.", alt: "PinSeeker camera view looking down a putting mat, ready to putt" },
+      { n: "01", title: "Set the phone beside the mat", body: "Stand your phone on a tripod to the side of the mat, about chest height, aimed down the lane. Keep your ball-to-target line parallel to the phone's long edge.", alt: "TempoSeeker camera view looking down a putting mat, ready to putt" },
       { n: "02", title: "Set the zone, then putt", body: "Tap the ball on screen — tracking boxes lock onto it. Press SET, place your ball, and when it reads READY TO PUTT, just putt.", alt: "Tracking zone boxes locked onto the ball on the mat" },
       { n: "03", title: "Get your numbers instantly", body: "A second later your stroke is on screen — tempo, ball speed, distance and direction, with coaching on exactly what to fix.", alt: "Result card showing tempo ratio, backswing and forward-swing timing" },
     ],
@@ -45,7 +45,7 @@ export const en = {
     h2: "Four numbers that actually <em>move your putting.</em>",
     lead: "Every putt, automatically — no wearables, no sensors on the club.",
     items: [
-      { title: "Tempo ratio", body: "Backswing time divided by your through-stroke — the rhythm great putters repeat on every putt. PinSeeker times it to the millisecond. Target ≈ 2.0." },
+      { title: "Tempo ratio", body: "Backswing time divided by your through-stroke — the rhythm great putters repeat on every putt. TempoSeeker times it to the millisecond. Target ≈ 2.0." },
       { title: "Ball speed", body: "Velocity straight off the face the instant you make contact — the truth about how hard you actually struck it." },
       { title: "Predicted distance", body: "How far that putt would roll on a real green at your chosen stimp speed, so range practice maps to the course." },
       { title: "Direction & deviation", body: "Your start-line angle and how far offline the ball would finish at the target distance — left or right, in centimetres." },
@@ -65,7 +65,7 @@ export const en = {
     ratioCap: "The 2 : 1 stroke",
     ratioBack: "Backswing",
     ratioThru: "Through",
-    ratioNote: "PinSeeker times every stroke to the millisecond and scores it against this ratio.",
+    ratioNote: "TempoSeeker times every stroke to the millisecond and scores it against this ratio.",
     stats: [
       { value: "80–85%", text: "of your start line is set by face angle at impact — not swing path." },
       { value: "≤ 0.03s", text: "stroke-duration consistency is the mark of tour-level putting." },
@@ -124,13 +124,13 @@ export const en = {
     eyebrow: "FAQ",
     h2: "Good questions, <em>straight answers.</em>",
     items: [
-      { q: "What do I need to use it?", a: "An iPhone, a putting mat, a tripod, and a white golf ball. You also stick a small coloured marker (about 2×2 cm, any colour but white) where the ball sits — PinSeeker locks its tracking onto that. Even, indirect light works best." },
-      { q: "Why the coloured marker?", a: "The ball is white and so are most mat lines, so PinSeeker keys its tracking off a colour it can find unambiguously. You place the ball right on the marker — in Tempo-only mode the marker even stands in for the ball." },
+      { q: "What do I need to use it?", a: "An iPhone, a putting mat, a tripod, and a white golf ball. You also stick a small coloured marker (about 2×2 cm, any colour but white) where the ball sits — TempoSeeker locks its tracking onto that. Even, indirect light works best." },
+      { q: "Why the coloured marker?", a: "The ball is white and so are most mat lines, so TempoSeeker keys its tracking off a colour it can find unambiguously. You place the ball right on the marker — in Tempo-only mode the marker even stands in for the ball." },
       { q: "Do I need a special mat or putter?", a: "Any putter works — if its head is dark or shiny, add a strip of bright tape across the top so the camera can see it. A mat with no markings is best; thin white lines under ~1 cm are fine, but avoid bold lines." },
       { q: "Is my video recorded or uploaded?", a: "No. Frames are analysed on your phone to measure the putt and are never recorded or uploaded. Nothing leaves your device." },
-      { q: "Does it work for left-handed golfers?", a: "Not yet. PinSeeker is currently iPhone-only and built for right-handed golfers. Left-handed support and other platforms are planned." },
-      { q: "How accurate is it?", a: "PinSeeker uses computer vision to measure tempo, ball speed and distance on every putt, with a two-minute setup and no calibration headaches. It's pre-launch, so we're not publishing accuracy figures we haven't earned yet — those come once there's real-world data." },
-      { q: `What's "Stimp"?`, a: "Stimp is golf's measure of green speed. Your mat at home rolls slower than a real green, so you tell PinSeeker which speed to simulate (default 10.0) and it turns ball speed into a realistic distance prediction." },
+      { q: "Does it work for left-handed golfers?", a: "Not yet. TempoSeeker is currently iPhone-only and built for right-handed golfers. Left-handed support and other platforms are planned." },
+      { q: "How accurate is it?", a: "TempoSeeker uses computer vision to measure tempo, ball speed and distance on every putt, with a two-minute setup and no calibration headaches. It's pre-launch, so we're not publishing accuracy figures we haven't earned yet — those come once there's real-world data." },
+      { q: `What's "Stimp"?`, a: "Stimp is golf's measure of green speed. Your mat at home rolls slower than a real green, so you tell TempoSeeker which speed to simulate (default 10.0) and it turns ball speed into a realistic distance prediction." },
       { q: "What does it cost?", a: `Free forever: ${site.freeDailyPutts} putts a day with every feature unlocked, no credit card. Go Pro for unlimited putts — ${site.pricePerMonth}/month or ${site.pricePerYear}/year. Cancel anytime.` },
     ],
   },

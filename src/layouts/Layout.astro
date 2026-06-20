@@ -17,7 +17,7 @@ const meta = getContent(lang).meta;
 const title = Astro.props.title ?? meta.title;
 const description = Astro.props.description ?? meta.description;
 
-const siteUrl = Astro.site ?? new URL("https://pinseeker.app");
+const siteUrl = Astro.site ?? new URL("https://temposeeker.com");
 const canonical = new URL(Astro.url.pathname, siteUrl).href;
 const ogImageUrl = new URL(ogImage, siteUrl).href;
 
@@ -65,7 +65,7 @@ const alternates = locales.map((l) => {
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImageUrl} />
-    <meta property="og:site_name" content="PinSeeker" />
+    <meta property="og:site_name" content="TempoSeeker" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -79,7 +79,7 @@ const alternates = locales.map((l) => {
       set:html={JSON.stringify({
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
-        name: "PinSeeker",
+        name: "TempoSeeker",
         applicationCategory: "SportsApplication",
         operatingSystem: "iOS 16+",
         description,

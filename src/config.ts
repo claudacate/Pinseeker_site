@@ -18,7 +18,7 @@ export const site = {
   // Social channels — paste full URLs once the channels exist. Each footer
   // link auto-hides while its URL is empty.
   social: {
-    youtube: "",
+    youtube: "https://www.youtube.com/@pinseekerputting-s2o",
     instagram: "",
   },
 

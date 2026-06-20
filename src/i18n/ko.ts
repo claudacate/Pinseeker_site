@@ -26,6 +26,13 @@ export const ko: DeepPartial<SiteContent> = {
       { title: "가입 불필요", body: "계정도, 클라우드 로그인도 없이. 프로필만 만들고 바로 퍼팅하세요." },
     ],
   },
+  video: {
+    eyebrow: "실제 작동 영상",
+    h2: "PinSeeker가 <em>작동하는</em> 모습.",
+    lead: "1분 영상 — 설정, 퍼팅, 그리고 돌아오는 숫자들.",
+    playLabel: "영상 재생",
+  },
+
   how: {
     eyebrow: "사용 방법",
     h2: "세 단계. <em>약 1분</em>이면 설정 완료.",

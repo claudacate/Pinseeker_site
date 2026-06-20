@@ -15,6 +15,12 @@ export const site = {
   // └──────────────────────────────────────────────────────────────────┘
   appStoreUrl: "https://apps.apple.com/app/pinseeker/id0000000000",
 
+  // Promo film — YouTube video IDs per locale (facade/click-to-load embed).
+  // Fill these once the films are uploaded; the "See it in action" section
+  // auto-hides while a locale's ID (and the English fallback) are empty.
+  // The ID is the part after v= in youtube.com/watch?v=<ID> or after youtu.be/.
+  youtubeIds: { en: "", ko: "", "zh-tw": "", ja: "" } as Record<string, string>,
+
   // Offer (from App Store ASO metadata): freemium — free daily putts, paid Pro.
   freeDailyPutts: 10,
   pricePerMonth: "$9.99",

@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Header from "./Header.astro";
 import Hero from "./Hero.astro";
 import TrustBand from "./TrustBand.astro";
+import PromoVideo from "./PromoVideo.astro";
 import HowItWorks from "./HowItWorks.astro";
 import Features from "./Features.astro";
 import Demo from "./Demo.astro";
@@ -22,6 +23,7 @@ const { lang = defaultLocale } = Astro.props;
   <main>
     <Hero lang={lang} />
     <TrustBand lang={lang} />
+    <PromoVideo lang={lang} />
     <HowItWorks lang={lang} />
     <Features lang={lang} />
     <Demo lang={lang} />

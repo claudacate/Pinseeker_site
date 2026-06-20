@@ -1,0 +1,63 @@
+---
+/**
+ * "Download on the App Store" call-to-action.
+ * Always a real clickable link to `site.appStoreUrl` (the download location).
+ * That URL is a PLACEHOLDER until the app is published — see src/config.ts.
+ * Swap in Apple's official badge artwork once the listing is live if desired.
+ */
+import { site } from "../config";
+import { getContent, defaultLocale, type Locale } from "../i18n";
+
+interface Props {
+  /** Show the "N free putts every day" line under the badge. */
+  showTrial?: boolean;
+  lang?: Locale;
+}
+const { showTrial = true, lang = defaultLocale } = Astro.props;
+const c = getContent(lang).common;
+---
+
+<div class="cta">
+  <a
+    class="appbadge"
+    href={site.appStoreUrl}
+    target="_blank"
+    rel="noopener"
+    aria-label="Download PinSeeker on the App Store"
+  >
+    <svg class="appbadge__logo" viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        fill="currentColor"
+        d="M17.05 12.54c-.02-2.05 1.68-3.03 1.75-3.08-.95-1.4-2.44-1.59-2.97-1.61-1.26-.13-2.46.74-3.1.74-.64 0-1.62-.72-2.67-.7-1.37.02-2.64.8-3.34 2.03-1.43 2.48-.37 6.15 1.02 8.16.68.98 1.49 2.08 2.55 2.04 1.03-.04 1.42-.66 2.66-.66 1.24 0 1.59.66 2.67.64 1.1-.02 1.8-1 2.47-1.99.78-1.14 1.1-2.25 1.12-2.31-.02-.01-2.15-.83-2.18-3.29zM15.1 6.5c.56-.68.94-1.62.83-2.56-.81.03-1.79.54-2.37 1.21-.52.6-.98 1.56-.86 2.48.9.07 1.83-.46 2.4-1.13z"
+      ></path>
+    </svg>
+    <span class="appbadge__text">
+      <span class="appbadge__small">{c.downloadSmall}</span>
+      <span class="appbadge__big">{c.downloadBig}</span>
+    </span>
+  </a>
+  {showTrial && <p class="cta__note">{c.freeNote}</p>}
+</div>
+
+<style>
+  .cta { display: inline-flex; flex-direction: column; gap: 0.6rem; align-items: flex-start; }
+
+  .appbadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.7rem 1.2rem;
+    border-radius: 12px;
+    background: var(--ink);
+    color: #0c0f0e;
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+  .appbadge:hover { transform: translateY(-1px); background: #fff; }
+
+  .appbadge__logo { width: 26px; height: 26px; flex-shrink: 0; }
+  .appbadge__text { display: flex; flex-direction: column; line-height: 1.1; text-align: left; }
+  .appbadge__small { font-size: 0.68rem; font-weight: 500; }
+  .appbadge__big { font-size: 1.15rem; font-weight: 600; letter-spacing: -0.01em; }
+
+  .cta__note { font-size: 0.85rem; color: var(--ink-faint); }
+</style>

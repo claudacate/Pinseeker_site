@@ -1,0 +1,43 @@
+---
+import Layout from "./Layout.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+  title: string;
+  updated: string;
+}
+const { title, updated } = Astro.props;
+---
+
+<Layout title={`${title} — PinSeeker`} description={`${title} for PinSeeker.`}>
+  <main class="legal">
+    <div class="container container--narrow">
+      <a class="legal__back" href="/">← Back to PinSeeker</a>
+      <h1>{title}</h1>
+      <p class="legal__meta">Last updated {updated}</p>
+      <div class="legal__body">
+        <slot />
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .legal { padding-top: clamp(3rem, 7vw, 5rem); }
+  .legal__back {
+    font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.04em;
+    color: var(--ink-soft);
+  }
+  .legal__back:hover { color: var(--accent); }
+  .legal h1 { font-size: clamp(2rem, 5vw, 3rem); margin: 1.25rem 0 0.5rem; }
+  .legal__meta { font-family: var(--font-mono); font-size: 0.8rem; color: var(--ink-faint); margin-bottom: 2.5rem; }
+
+  .legal__body :global(h2) {
+    font-size: 1.4rem; margin: 2.25rem 0 0.75rem;
+  }
+  .legal__body :global(p) { color: var(--ink-soft); margin-bottom: 1rem; }
+  .legal__body :global(ul) { color: var(--ink-soft); margin: 0 0 1rem 1.2rem; display: flex; flex-direction: column; gap: 0.4rem; }
+  .legal__body :global(a) { color: var(--accent); }
+  .legal__body :global(strong) { color: var(--ink); }
+</style>

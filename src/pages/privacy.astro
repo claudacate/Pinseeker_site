@@ -1,0 +1,57 @@
+---
+import Legal from "../layouts/Legal.astro";
+import { site } from "../config";
+---
+
+<Legal title="Privacy Policy" updated="June 2026">
+  <p>
+    This Privacy Policy explains how PinSeeker ("we", "us") handles information when
+    you use the PinSeeker iPhone app. PinSeeker is built to keep your data on your
+    device. <strong>This is a plain-language summary and a starting draft — please
+    have it reviewed before relying on it.</strong>
+  </p>
+
+  <h2>Camera and video</h2>
+  <p>
+    PinSeeker uses your camera to watch your putt and measure your stroke. Camera
+    frames are analysed <strong>on your iPhone</strong> to calculate tempo, ball speed,
+    distance and direction. Frames are <strong>never recorded, saved as video, or
+    uploaded</strong> to us or any third party.
+  </p>
+
+  <h2>Information you provide</h2>
+  <ul>
+    <li><strong>Profile:</strong> a player name, and optionally an email address, used only to set up your profile in the app.</li>
+    <li><strong>Putt and session data:</strong> your measured results and statistics are stored on your device so the app can show your history and trends.</li>
+  </ul>
+
+  <h2>Purchases</h2>
+  <p>
+    Subscriptions are processed by Apple through the App Store. We do not receive or
+    store your payment card details. Apple's handling of your purchase is governed by
+    Apple's privacy policy.
+  </p>
+
+  <h2>Analytics</h2>
+  <p>
+    The current version of this site and app does not run third-party analytics or
+    advertising trackers. If we add privacy-respecting analytics in future, we will
+    update this policy first.
+  </p>
+
+  <h2>What we don't do</h2>
+  <ul>
+    <li>We do not sell your personal information.</li>
+    <li>We do not upload or store your putting videos.</li>
+    <li>We do not share your data with advertisers.</li>
+  </ul>
+
+  <h2>Children</h2>
+  <p>PinSeeker is not directed to children under 13, and we do not knowingly collect their information.</p>
+
+  <h2>Changes</h2>
+  <p>We may update this policy as the app evolves. Material changes will be reflected here with a new "last updated" date.</p>
+
+  <h2>Contact</h2>
+  <p>Questions about privacy? Email <a href={`mailto:${site.supportEmail}`}>{site.supportEmail}</a>.</p>
+</Legal>

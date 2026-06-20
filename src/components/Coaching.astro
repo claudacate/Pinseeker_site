@@ -1,0 +1,99 @@
+---
+import { Image } from "astro:assets";
+import coaching from "../assets/screens/coaching.png";
+import { getContent, defaultLocale, type Locale } from "../i18n";
+
+/* "Know why you missed" — AI coaching + Tour-benchmark stats. */
+interface Props { lang?: Locale }
+const { lang = defaultLocale } = Astro.props;
+const t = getContent(lang).coaching;
+---
+
+<section class="section coaching" id="coaching">
+  <div class="container coaching__grid">
+    <div class="coaching__media">
+      <Image
+        src={coaching}
+        alt={t.coachingAlt}
+        widths={[500, 800, 1100]}
+        sizes="(max-width: 880px) 90vw, 50vw"
+      />
+    </div>
+
+    <div class="coaching__copy">
+      <span class="eyebrow">{t.eyebrow}</span>
+      <h2 set:html={t.h2}></h2>
+      <p class="lead">{t.lead}</p>
+
+      <dl class="wwh">
+        {t.wwh.map((w) => (
+          <div><dt>{w.term}</dt><dd>{w.desc}</dd></div>
+        ))}
+      </dl>
+    </div>
+  </div>
+
+  <div class="container bench">
+    <div class="bench__head">
+      <span class="eyebrow">{t.benchEyebrow}</span>
+      <h3 set:html={t.benchH3}></h3>
+    </div>
+    <div class="bench__grid">
+      {t.benchmarks.map((b) => (
+        <div class="bench__card">
+          <span class="bench__label">{b.label}</span>
+          <span class="bench__you">{b.you}</span>
+          <span class="bench__tour">{b.tour}</span>
+        </div>
+      ))}
+    </div>
+    <p class="bench__note">{t.benchNote}</p>
+  </div>
+</section>
+
+<style>
+  .coaching__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+  }
+  .coaching__media {
+    border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+  }
+  .coaching__media :global(img) { width: 100%; height: auto; display: block; }
+
+  .coaching__copy h2 { margin: 0.75rem 0 1rem; }
+
+  .wwh { display: flex; flex-direction: column; gap: 1.1rem; margin-top: 1.75rem; }
+  .wwh dt {
+    font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 0.25rem;
+  }
+  .wwh dd { color: var(--ink-soft); font-size: 0.98rem; }
+
+  .bench { margin-top: clamp(3rem, 7vw, 5rem); }
+  .bench__head { max-width: 32ch; margin-bottom: 1.75rem; }
+  .bench__head h3 { margin-top: 0.6rem; font-size: clamp(1.4rem, 3vw, 2rem); }
+
+  .bench__grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+  }
+  .bench__card {
+    background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius-sm);
+    padding: 1.2rem; display: flex; flex-direction: column; gap: 0.35rem;
+  }
+  .bench__label { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-faint); }
+  .bench__you { font-family: var(--font-mono); font-size: 1.7rem; font-weight: 700; color: var(--ink); }
+  .bench__tour { font-size: 0.78rem; color: var(--tour); }
+  .bench__note { color: var(--ink-soft); font-size: 0.95rem; margin-top: 1.25rem; max-width: 60ch; }
+
+  @media (max-width: 880px) {
+    .coaching__grid { grid-template-columns: 1fr; }
+    .coaching__media { order: -1; max-width: 560px; margin-inline: auto; }
+  }
+  @media (max-width: 620px) {
+    .bench__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>

@@ -1,0 +1,288 @@
+---
+/**
+ * Interactive product demo. Ported from `PinSeeker Interactive Demo/index.html`.
+ * Audio removed (intrusive on a marketing page); restyled to site tokens.
+ * Styles are global but namespaced under `.ps-demo` because the carousel
+ * builds dots/hotspots/hints at runtime (Astro scoped styles wouldn't match).
+ */
+import { getContent, defaultLocale, type Locale } from "../i18n";
+
+interface Props { lang?: Locale }
+const { lang = defaultLocale } = Astro.props;
+const t = getContent(lang).demo;
+---
+
+<section class="section ps-demo" id="demo">
+  <div class="container">
+    <header class="ps-demo__head">
+      <span class="eyebrow">{t.eyebrow}</span>
+      <h2 set:html={t.h2}></h2>
+      <p class="lead">{t.lead}</p>
+    </header>
+
+    <div class="device-wrap">
+      <button class="nav-arrow left" data-prev aria-label="Previous">&#8249;</button>
+      <button class="nav-arrow right" data-next aria-label="Next">&#8250;</button>
+
+      <div class="device">
+        <div class="screen" id="ps-screen">
+          <div class="photo-layer" id="ps-photo-a" style="opacity:1;"></div>
+          <div class="photo-layer" id="ps-photo-b" style="opacity:0;"></div>
+          <div class="tap-flash" id="ps-flash"></div>
+          <div class="feature-label hidden" id="ps-feature-label"></div>
+          <div id="ps-hotspot-layer"></div>
+          <div id="ps-hint-layer"></div>
+          <div class="home-indicator"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <div class="dots" id="ps-dots"></div>
+      <div class="scene-name" id="ps-scene-name"></div>
+      <button class="demo-btn" id="ps-demo-btn">
+        <span class="demo-icon" id="ps-demo-icon"><span class="play-shape"></span></span>
+        <span id="ps-demo-label">Play</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .ps-demo .ps-demo__head { max-width: 34ch; margin-bottom: clamp(2rem, 5vw, 3rem); }
+  .ps-demo .ps-demo__head h2 { margin: 0.75rem 0 0.75rem; }
+
+  .ps-demo .device-wrap { position: relative; width: 100%; max-width: 880px; margin-inline: auto; }
+
+  .ps-demo .device {
+    position: relative; width: 100%; aspect-ratio: 880 / 420;
+    background: linear-gradient(150deg, #262a30, #0c0d0f 55%, #1b1e22);
+    border-radius: 44px; padding: 12px;
+    box-shadow: 0 60px 120px -30px rgba(0,0,0,0.85), 0 0 0 2px #2c2f34;
+  }
+  .ps-demo .screen {
+    position: absolute; inset: 12px;
+    border-radius: 34px; overflow: hidden; background: #000;
+  }
+  .ps-demo .photo-layer {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center; background-repeat: no-repeat;
+    transition: opacity 0.45s ease;
+  }
+
+  .ps-demo .hint-badge {
+    position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+    background: rgba(8,11,10,0.78); backdrop-filter: blur(10px);
+    border: 1px solid var(--accent-line); border-radius: 20px;
+    padding: 7px 16px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em;
+    color: var(--ink-soft); white-space: nowrap; pointer-events: none; z-index: 10;
+    display: flex; align-items: center; gap: 7px;
+  }
+
+  @keyframes ps-tap-pulse { 0%{transform:scale(0.7);opacity:0.9} 70%,100%{transform:scale(1.4);opacity:0} }
+  .ps-demo .tap-indicator { position: absolute; pointer-events: none; z-index: 8; }
+  .ps-demo .tap-ring { width:36px;height:36px;border-radius:50%;border:2px solid rgba(242,177,60,0.7);
+    animation: ps-tap-pulse 1.6s ease-out infinite; position:absolute; top:-18px; left:-18px; }
+  .ps-demo .tap-dot { width:8px;height:8px;border-radius:50%;background:rgba(242,177,60,0.9);
+    position:absolute; top:-4px; left:-4px; animation: ps-tap-pulse 1.6s ease-out infinite 0.2s; }
+
+  @keyframes ps-swipe { 0%{transform:translateX(0);opacity:0.3} 50%{transform:translateX(28px);opacity:1} 100%{transform:translateX(0);opacity:0.3} }
+  .ps-demo .swipe-hint { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    display:flex; align-items:center; pointer-events:none; z-index:9; }
+  .ps-demo .swipe-arrow { font-size:32px; color:rgba(242,177,60,0.85);
+    animation: ps-swipe 1.4s ease-in-out infinite; text-shadow:0 0 20px rgba(242,177,60,0.4); }
+
+  .ps-demo .feature-label {
+    position:absolute; top:14px; left:50%; transform:translateX(-50%);
+    background: var(--accent-soft); border:1px solid var(--accent-line); border-radius:12px;
+    padding:5px 14px; font-family: var(--font-mono); font-size:11px; font-weight:600;
+    letter-spacing:0.12em; color:var(--accent); text-transform:uppercase;
+    pointer-events:none; z-index:11; transition:opacity 0.3s; white-space:nowrap;
+  }
+  .ps-demo .feature-label.hidden { opacity:0; }
+
+  .ps-demo .hotspot { position:absolute; cursor:pointer; z-index:7; border-radius:8px; transition:background 0.15s; }
+  .ps-demo .hotspot:active { background: var(--accent-soft); }
+
+  .ps-demo .home-indicator { position:absolute; bottom:6px; left:50%; transform:translateX(-50%);
+    width:100px; height:4px; background:rgba(255,255,255,0.4); border-radius:3px; z-index:15; }
+
+  @keyframes ps-flash { 0%{opacity:0.18} 100%{opacity:0} }
+  .ps-demo .tap-flash { position:absolute; inset:0; background:#fff; pointer-events:none; opacity:0; z-index:12; }
+  .ps-demo .tap-flash.active { animation: ps-flash 0.25s ease-out forwards; }
+
+  .ps-demo .nav-arrow {
+    position:absolute; top:50%; transform:translateY(-50%);
+    width:38px; height:38px; border-radius:50%;
+    background:rgba(255,255,255,0.06); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    color:var(--ink-soft); font-size:18px; transition:all 0.2s; user-select:none; z-index:5;
+  }
+  .ps-demo .nav-arrow:hover { background:rgba(255,255,255,0.12); color:var(--ink); }
+  .ps-demo .nav-arrow.left { left:-52px; }
+  .ps-demo .nav-arrow.right { right:-52px; }
+  @media (max-width: 980px) { .ps-demo .nav-arrow { display:none; } }
+
+  .ps-demo .controls {
+    display:flex; align-items:center; justify-content:space-between;
+    width:100%; max-width:880px; margin:1.25rem auto 0; gap:1rem;
+  }
+  .ps-demo .dots { display:flex; gap:6px; align-items:center; }
+  .ps-demo .dot { width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,0.2); transition:all 0.3s; cursor:pointer; }
+  .ps-demo .dot.active { background:var(--accent); width:18px; border-radius:3px; }
+
+  .ps-demo .scene-name { font-family:var(--font-mono); font-size:12px; color:var(--ink-faint);
+    letter-spacing:0.04em; text-align:center; flex:1; }
+
+  .ps-demo .demo-btn {
+    display:flex; align-items:center; gap:8px; padding:9px 20px;
+    background:transparent; border:1px solid var(--accent-line); border-radius:20px;
+    color:var(--accent); font-family:var(--font-mono); font-size:12px; font-weight:600;
+    letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; transition:all 0.2s;
+  }
+  .ps-demo .demo-btn:hover { background:var(--accent-soft); border-color:var(--accent); }
+  .ps-demo .demo-btn.running { background:var(--accent-soft); border-color:var(--accent); }
+  .ps-demo .demo-icon { width:14px; height:14px; display:flex; align-items:center; }
+  .ps-demo .play-shape { width:0; height:0; border-style:solid; border-width:5px 0 5px 9px;
+    border-color:transparent transparent transparent var(--accent); }
+  .ps-demo .pause-shape { display:flex; gap:3px; height:10px; }
+  .ps-demo .pause-bar { width:3px; height:10px; background:var(--accent); border-radius:1px; }
+</style>
+
+<script>
+  const scenes = [
+    { label: "Home screen", photo: "/demo/01_main.jpg", hint: "Tap the mat to set zone", hintIcon: "👆", hotspots: [{ x:8, y:15, w:62, h:70 }], next: 1 },
+    { label: "Zone setting", photo: "/demo/02_zone.jpg", hint: "Tap DONE to confirm zone", hintIcon: "👆", hotspots: [{ x:5, y:5, w:90, h:88 }], next: 2 },
+    { label: "Ball detected · Ready", photo: "/demo/03_ball_ready.jpg", hint: "Swipe right to putt", hintIcon: "→", swipe: true, hotspots: [{ x:5, y:10, w:88, h:78 }], next: 3 },
+    { label: "Tracking in motion", photo: "/demo/04_tracking.jpg", hint: "", hotspots: [], autoNext: 4, autoDelay: 1600 },
+    { label: "Result card", photo: "/demo/05_result_closed.jpg", hint: "Tap to open result card", hintIcon: "👆", hotspots: [{ x:5, y:5, w:90, h:88 }], next: 5 },
+    { label: "Full coaching card", photo: "/demo/06_result_open.jpg", hint: "Tap card for coaching detail", hintIcon: "👆", hotspots: [{ x:5, y:5, w:90, h:88 }], next: 6 },
+    { label: "Coaching detail", photo: "/demo/07_coaching.jpg", hint: "Tap to continue", hintIcon: "👆", hotspots: [{ x:5, y:5, w:90, h:88 }], next: 7 },
+    { label: "Putt review · Impact frames", photo: "/demo/08_putt_review.jpg", hint: "Tap to see metronome", hintIcon: "👆", hotspots: [{ x:5, y:5, w:90, h:88 }], next: 8 },
+    { label: "Metronome · Tempo", photo: "/demo/09_metronome.jpg", hint: "Tap to see tempo acquisition", hintIcon: "👆", hotspots: [{ x:5, y:5, w:90, h:88 }], next: 9 },
+    { label: "Tempo acquisition", photo: "/demo/11_tempo.jpg", hint: "Tap to see settings", hintIcon: "👆", hotspots: [{ x:5, y:5, w:90, h:88 }], next: 10 },
+    { label: "Settings", photo: "/demo/10_settings.jpg", hint: "Tap to restart", hintIcon: "↩", hotspots: [{ x:5, y:5, w:90, h:88 }], next: 0 },
+  ];
+
+  let current = 0, demoMode = false, demoTimer: ReturnType<typeof setTimeout> | null = null, activeLayer = "a";
+  const DEMO_DELAY = 2800;
+
+  const $ = (id: string) => document.getElementById(id)!;
+  const photoA = $("ps-photo-a"), photoB = $("ps-photo-b"), flash = $("ps-flash");
+  const featureLabel = $("ps-feature-label"), sceneName = $("ps-scene-name");
+  const hotspotLayer = $("ps-hotspot-layer"), hintLayer = $("ps-hint-layer"), dotsEl = $("ps-dots");
+
+  function preload() { scenes.forEach((s) => { const img = new Image(); img.src = s.photo; }); }
+
+  function buildDots() {
+    dotsEl.innerHTML = "";
+    scenes.forEach((_, i) => {
+      const d = document.createElement("div");
+      d.className = "dot" + (i === current ? " active" : "");
+      d.onclick = () => goTo(i);
+      dotsEl.appendChild(d);
+    });
+  }
+
+  function goTo(idx: number, fromAuto = false) {
+    if (idx === current && !fromAuto) return;
+    current = idx;
+    const scene = scenes[idx];
+    flashScreen();
+    const incoming = activeLayer === "a" ? photoB : photoA;
+    const outgoing = activeLayer === "a" ? photoA : photoB;
+    incoming.style.backgroundImage = `url('${scene.photo}')`;
+    incoming.style.opacity = "0";
+    requestAnimationFrame(() => requestAnimationFrame(() => { incoming.style.opacity = "1"; outgoing.style.opacity = "0"; }));
+    activeLayer = activeLayer === "a" ? "b" : "a";
+    if (scene.autoNext !== undefined) setTimeout(() => goTo(scene.autoNext!, true), scene.autoDelay || 1600);
+    updateUI();
+    if (demoMode && scene.autoNext === undefined) {
+      if (demoTimer) clearTimeout(demoTimer);
+      demoTimer = setTimeout(() => { if (demoMode) goTo((current + 1) % scenes.length, true); }, DEMO_DELAY);
+    }
+  }
+
+  function flashScreen() { flash.classList.remove("active"); void flash.offsetWidth; flash.classList.add("active"); }
+
+  function updateUI() {
+    const scene = scenes[current];
+    sceneName.textContent = scene.label;
+    featureLabel.textContent = scene.label;
+    featureLabel.classList.toggle("hidden", !demoMode);
+    buildDots(); buildHotspots(scene); buildHint(scene);
+  }
+
+  function buildHotspots(scene: typeof scenes[number]) {
+    hotspotLayer.innerHTML = "";
+    if (!scene.hotspots || scene.hotspots.length === 0) return;
+    scene.hotspots.forEach((h) => {
+      const el = document.createElement("div");
+      el.className = "hotspot";
+      el.style.left = h.x + "%"; el.style.top = h.y + "%";
+      el.style.width = h.w + "%"; el.style.height = h.h + "%";
+      el.addEventListener("click", () => goTo(scene.next !== undefined ? scene.next : (current + 1) % scenes.length));
+      hotspotLayer.appendChild(el);
+      if (scene.swipe) {
+        const sw = document.createElement("div");
+        sw.className = "swipe-hint";
+        sw.innerHTML = '<span class="swipe-arrow">→</span>';
+        el.appendChild(sw);
+      } else if (scene.hint) {
+        const dot = document.createElement("div");
+        dot.className = "tap-indicator";
+        dot.style.left = "50%"; dot.style.top = "42%";
+        dot.innerHTML = '<div class="tap-ring"></div><div class="tap-dot"></div>';
+        el.appendChild(dot);
+      }
+    });
+  }
+
+  function buildHint(scene: typeof scenes[number]) {
+    hintLayer.innerHTML = "";
+    if (!scene.hint) return;
+    const badge = document.createElement("div");
+    badge.className = "hint-badge";
+    badge.innerHTML = `<span>${scene.hintIcon || "●"}</span><span>${scene.hint}</span>`;
+    hintLayer.appendChild(badge);
+  }
+
+  const nextScene = () => goTo((current + 1) % scenes.length);
+  const prevScene = () => goTo((current - 1 + scenes.length) % scenes.length);
+
+  function toggleDemo() {
+    demoMode = !demoMode;
+    const btn = $("ps-demo-btn"), icon = $("ps-demo-icon"), lbl = $("ps-demo-label");
+    btn.classList.toggle("running", demoMode);
+    lbl.textContent = demoMode ? "Stop" : "Play";
+    if (demoMode) {
+      icon.innerHTML = '<div class="pause-shape"><div class="pause-bar"></div><div class="pause-bar"></div></div>';
+      featureLabel.classList.remove("hidden");
+      goTo(0, true);
+    } else {
+      icon.innerHTML = '<div class="play-shape"></div>';
+      featureLabel.classList.add("hidden");
+      if (demoTimer) clearTimeout(demoTimer);
+      updateUI();
+    }
+  }
+
+  // init
+  preload();
+  photoA.style.backgroundImage = `url('${scenes[0].photo}')`;
+  photoA.style.opacity = "1";
+  buildDots(); buildHotspots(scenes[0]); buildHint(scenes[0]);
+  sceneName.textContent = scenes[0].label;
+
+  $("ps-demo-btn").addEventListener("click", toggleDemo);
+  document.querySelector("[data-next]")!.addEventListener("click", () => nextScene());
+  document.querySelector("[data-prev]")!.addEventListener("click", () => prevScene());
+
+  let touchStartX = 0;
+  const screen = $("ps-screen");
+  screen.addEventListener("touchstart", (e) => { touchStartX = (e as TouchEvent).touches[0].clientX; }, { passive: true });
+  screen.addEventListener("touchend", (e) => {
+    const dx = (e as TouchEvent).changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 40) { dx < 0 ? nextScene() : prevScene(); }
+  }, { passive: true });
+</script>

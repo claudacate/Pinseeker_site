@@ -1,0 +1,83 @@
+---
+import { site } from "../config";
+import AppStoreBadge from "./AppStoreBadge.astro";
+import { getContent, defaultLocale, type Locale } from "../i18n";
+
+interface Props { lang?: Locale }
+const { lang = defaultLocale } = Astro.props;
+const t = getContent(lang).pricing;
+---
+
+<section class="section pricing" id="pricing">
+  <div class="container">
+    <header class="pricing__head">
+      <span class="eyebrow">{t.eyebrow}</span>
+      <h2 set:html={t.h2}></h2>
+      <p class="lead">{t.lead}</p>
+    </header>
+
+    <div class="plans">
+      <article class="plan">
+        <div class="plan__name">{t.free.name}</div>
+        <div class="plan__price"><b>{site.freeDailyPutts}</b><span>{t.free.unit}</span></div>
+        <ul class="plan__list">
+          {t.free.list.map((li) => <li>{li}</li>)}
+        </ul>
+      </article>
+
+      <article class="plan plan--pro">
+        <div class="plan__tag">{t.pro.tag}</div>
+        <div class="plan__name">{t.pro.name}</div>
+        <div class="plan__price"><b>{site.pricePerMonth}</b><span>{t.pro.perMonth}</span></div>
+        <div class="plan__alt">{t.pro.perYear}</div>
+        <ul class="plan__list">
+          {t.pro.list.map((li) => <li>{li}</li>)}
+        </ul>
+      </article>
+    </div>
+
+    <div class="pricing__cta">
+      <AppStoreBadge showTrial={false} lang={lang} />
+    </div>
+  </div>
+</section>
+
+<style>
+  .pricing__head { max-width: 38ch; margin-inline: auto; text-align: center; margin-bottom: clamp(2.5rem, 6vw, 4rem); }
+  .pricing__head h2 { margin: 0.75rem 0 1rem; }
+  .pricing__head .lead { margin-inline: auto; }
+
+  .plans {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem; max-width: 760px; margin-inline: auto;
+  }
+  .plan {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: clamp(1.75rem, 4vw, 2.5rem); position: relative;
+  }
+  .plan--pro { border-color: var(--accent-line); background: linear-gradient(180deg, var(--accent-soft), var(--panel) 60%); }
+  .plan__tag {
+    position: absolute; top: -11px; left: clamp(1.75rem, 4vw, 2.5rem);
+    font-family: var(--font-mono); font-size: 0.66rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #0a0d0b; background: var(--accent);
+    padding: 4px 10px; border-radius: 6px;
+  }
+  .plan__name { font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
+  .plan__price { display: flex; align-items: baseline; gap: 0.5rem; margin-top: 0.75rem; }
+  .plan__price b { font-family: var(--font-serif); font-size: 3rem; font-weight: 500; line-height: 1; }
+  .plan__price span { color: var(--ink-soft); font-size: 0.95rem; }
+  .plan__alt { font-family: var(--font-mono); font-size: 0.82rem; color: var(--tour); margin-top: 0.35rem; }
+
+  .plan__list { list-style: none; margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.7rem; }
+  .plan__list li { position: relative; padding-left: 1.6rem; color: var(--ink-soft); font-size: 0.97rem; }
+  .plan__list li::before {
+    content: ""; position: absolute; left: 0; top: 0.5em;
+    width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
+  }
+
+  .pricing__cta { display: flex; justify-content: center; margin-top: clamp(2rem, 5vw, 3rem); }
+
+  @media (max-width: 620px) {
+    .plans { grid-template-columns: 1fr; }
+  }
+</style>

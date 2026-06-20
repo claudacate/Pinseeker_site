@@ -1,0 +1,63 @@
+---
+import { site } from "../config";
+import { getContent, defaultLocale, type Locale } from "../i18n";
+import LangSwitcher from "./LangSwitcher.astro";
+
+interface Props { lang?: Locale }
+const { lang = defaultLocale } = Astro.props;
+const t = getContent(lang).footer;
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <span class="footer__wordmark">PinSeeker</span>
+      <p class="footer__tagline">{t.tagline}</p>
+      <LangSwitcher lang={lang} />
+    </div>
+
+    <nav class="footer__links" aria-label="Footer">
+      <a href="#how">{t.navHow}</a>
+      <a href="#features">{t.navFeatures}</a>
+      <a href="#pricing">{t.navPricing}</a>
+      <a href="#faq">{t.navFaq}</a>
+    </nav>
+
+    <nav class="footer__legal" aria-label="Legal">
+      <a href="/privacy">{t.privacy}</a>
+      <a href="/terms">{t.terms}</a>
+      <a href={`mailto:${site.supportEmail}`}>{t.support}</a>
+    </nav>
+  </div>
+
+  <div class="container footer__bottom">
+    <span>© {year} PinSeeker. {t.rights}</span>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--line);
+    padding-block: clamp(2.5rem, 6vw, 4rem) 1.5rem;
+    margin-top: var(--section-y);
+  }
+  .footer__grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem 3rem;
+    justify-content: space-between;
+  }
+  .footer__wordmark { font-weight: 700; font-size: 1.15rem; color: var(--accent); font-family: var(--font-serif); }
+  .footer__tagline { color: var(--text-mute); font-size: 0.9rem; margin-top: 0.35rem; }
+
+  .footer__links, .footer__legal { display: flex; flex-direction: column; gap: 0.6rem; }
+  .footer__links a, .footer__legal a { color: var(--text-dim); font-size: 0.95rem; }
+  .footer__links a:hover, .footer__legal a:hover { color: var(--text); }
+
+  .footer__bottom {
+    margin-top: 2.5rem;
+    color: var(--text-mute);
+    font-size: 0.85rem;
+  }
+</style>

@@ -1,0 +1,117 @@
+---
+/* "Why it works" — biomechanics credibility. Data from
+   PinSeeker_Biomechanics_Reference.md (Tour tempo profiles, 2:1 ratio,
+   face-angle start-line share, consistency grades). */
+import { getContent, defaultLocale, type Locale } from "../i18n";
+
+interface Props { lang?: Locale }
+const { lang = defaultLocale } = Astro.props;
+const t = getContent(lang).science;
+---
+
+<section class="section science" id="science">
+  <div class="container">
+    <header class="science__head">
+      <span class="eyebrow">{t.eyebrow}</span>
+      <h2 set:html={t.h2}></h2>
+      <p class="lead">{t.lead}</p>
+    </header>
+
+    <div class="science__grid">
+      <!-- 2:1 tempo visual -->
+      <figure class="ratio">
+        <figcaption class="ratio__cap">{t.ratioCap}</figcaption>
+        <div class="ratio__bar" role="img" aria-label="Backswing about twice as long as the through-stroke">
+          <div class="ratio__back"><span>{t.ratioBack}</span><b>≈ 2</b></div>
+          <div class="ratio__thru"><span>{t.ratioThru}</span><b>1</b></div>
+        </div>
+        <p class="ratio__note">{t.ratioNote}</p>
+      </figure>
+
+      <!-- Stat callouts -->
+      <ul class="science__stats">
+        {t.stats.map((s) => (
+          <li><b>{s.value}</b><span>{s.text}</span></li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Tour tempo profiles -->
+    <div class="profiles">
+      <div class="profiles__title">{t.profilesTitle}</div>
+      <table>
+        <thead>
+          <tr>{t.tableHeaders.map((h) => <th>{h}</th>)}</tr>
+        </thead>
+        <tbody>
+          {t.profiles.map((p, i) => (
+            <tr class={i === 1 ? "is-highlight" : ""}>
+              <td>{p.name}</td><td class="mono">{p.back}</td><td class="mono">{p.thru}</td><td>{p.feel}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<style>
+  .science__head { max-width: 40ch; margin-bottom: clamp(2rem, 5vw, 3.5rem); }
+  .science__head h2 { margin: 0.75rem 0 1rem; }
+
+  .science__grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: stretch;
+    margin-bottom: clamp(2rem, 5vw, 3rem);
+  }
+
+  .ratio {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: clamp(1.5rem, 3vw, 2rem);
+  }
+  .ratio__cap {
+    font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-faint); margin-bottom: 1rem;
+  }
+  .ratio__bar { display: flex; gap: 6px; height: 84px; }
+  .ratio__back, .ratio__thru {
+    border-radius: 10px; display: flex; flex-direction: column; justify-content: center;
+    padding: 0 1rem; color: #0a0d0b;
+  }
+  .ratio__back { flex: 2; background: var(--accent); }
+  .ratio__thru { flex: 1; background: rgba(242,177,60,0.32); color: var(--ink); }
+  .ratio__back span, .ratio__thru span { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.85; }
+  .ratio__back b, .ratio__thru b { font-size: 1.6rem; font-weight: 700; }
+  .ratio__note { color: var(--ink-soft); font-size: 0.92rem; margin-top: 1rem; }
+
+  .science__stats { list-style: none; display: flex; flex-direction: column; gap: 0.9rem; }
+  .science__stats li {
+    background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius-sm);
+    padding: 1rem 1.2rem; display: flex; align-items: baseline; gap: 1rem;
+  }
+  .science__stats b { font-family: var(--font-mono); font-size: 1.3rem; font-weight: 700; color: var(--accent); flex-shrink: 0; min-width: 4.5rem; }
+  .science__stats span { color: var(--ink-soft); font-size: 0.95rem; }
+
+  .profiles { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+  .profiles__title {
+    font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-soft); padding: 1rem 1.2rem; background: var(--panel); border-bottom: 1px solid var(--line);
+  }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { text-align: left; padding: 0.85rem 1.2rem; font-size: 0.95rem; }
+  th { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; }
+  tbody tr { border-top: 1px solid var(--line); }
+  tbody td { color: var(--ink-soft); }
+  tbody td:first-child { color: var(--ink); font-weight: 500; }
+  .mono { font-family: var(--font-mono); color: var(--ink) !important; }
+  tr.is-highlight { background: var(--accent-soft); }
+  tr.is-highlight td:first-child { color: var(--accent); }
+
+  @media (max-width: 760px) {
+    .science__grid { grid-template-columns: 1fr; }
+    .profiles { overflow-x: auto; }
+    th, td { white-space: nowrap; }
+  }
+</style>

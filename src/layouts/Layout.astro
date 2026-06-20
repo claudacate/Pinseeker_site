@@ -1,0 +1,97 @@
+---
+/* Base HTML shell: meta, SEO, Open Graph, JSON-LD, i18n alternates. */
+import "../styles/global.css";
+import { getContent, defaultLocale, localePrefix, type Locale } from "../i18n";
+import { locales, htmlLang } from "../i18n/config";
+
+interface Props {
+  lang?: Locale;
+  title?: string;
+  description?: string;
+  /** Path to OG image relative to site root. */
+  ogImage?: string;
+}
+
+const { lang = defaultLocale, ogImage = "/og-image.png" } = Astro.props;
+const meta = getContent(lang).meta;
+const title = Astro.props.title ?? meta.title;
+const description = Astro.props.description ?? meta.description;
+
+const siteUrl = Astro.site ?? new URL("https://pinseeker.app");
+const canonical = new URL(Astro.url.pathname, siteUrl).href;
+const ogImageUrl = new URL(ogImage, siteUrl).href;
+
+// hreflang alternates (home of each locale) + x-default.
+const alternates = locales.map((l) => {
+  const p = localePrefix(l);
+  return {
+    hreflang: htmlLang[l],
+    href: new URL(p ? `${p}/` : "/", siteUrl).href,
+  };
+});
+---
+
+<!doctype html>
+<html lang={htmlLang[lang]}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {alternates.map((a) => (
+      <link rel="alternate" hreflang={a.hreflang} href={a.href} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={new URL("/", siteUrl).href} />
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#0c0f0e" />
+
+    <!-- Fonts: Fraunces (display serif), Inter (body), JetBrains Mono (labels) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:site_name" content="PinSeeker" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- JSON-LD: software application -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        name: "PinSeeker",
+        applicationCategory: "SportsApplication",
+        operatingSystem: "iOS 16+",
+        description,
+        offers: {
+          "@type": "Offer",
+          price: "9.99",
+          priceCurrency: "USD",
+        },
+      })}
+    />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

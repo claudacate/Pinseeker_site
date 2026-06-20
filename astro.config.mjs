@@ -6,7 +6,7 @@ import sitemap from '@astrojs/sitemap';
 // `site` is a placeholder until a custom domain is bought; used for canonical
 // URLs, Open Graph absolute paths, and the sitemap. Update when the domain is live.
 export default defineConfig({
-  site: 'https://pinseeker.pages.dev',
+  site: 'https://pinseeker-site.pages.dev',
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'ko', 'zh-tw', 'ja'],

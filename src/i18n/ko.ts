@@ -3,7 +3,7 @@ import type { DeepPartial } from "./index";
 import type { SiteContent } from "./en";
 
 /** Korean overrides. Untranslated keys fall back to English.
- * NEEDS NATIVE-SPEAKER REVIEW. */
+ * Native-speaker reviewed. */
 export const ko: DeepPartial<SiteContent> = {
   meta: {
     title: "PinSeeker — iPhone 카메라 퍼팅 코치",
@@ -96,6 +96,7 @@ export const ko: DeepPartial<SiteContent> = {
     eyebrow: "가격",
     h2: `무료로 시작 — <em>하루 ${site.freeDailyPutts}퍼트.</em>`,
     lead: "신용카드도, 부담도 없이. 무료 플랜에서 모든 기능이 열립니다. 마라톤 연습을 원할 때만 Pro로.",
+    localNote: "App Store에서 현지 통화로 표시·청구됩니다.",
     free: {
       name: "무료",
       unit: "퍼트 / 일",

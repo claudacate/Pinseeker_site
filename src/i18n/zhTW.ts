@@ -3,7 +3,7 @@ import type { DeepPartial } from "./index";
 import type { SiteContent } from "./en";
 
 /** Traditional Chinese (Taiwan) overrides. Untranslated keys fall back to English.
- * NEEDS NATIVE-SPEAKER REVIEW. */
+ * Native-speaker reviewed. */
 export const zhTW: DeepPartial<SiteContent> = {
   meta: {
     title: "PinSeeker — iPhone 相機推桿教練",
@@ -96,6 +96,7 @@ export const zhTW: DeepPartial<SiteContent> = {
     eyebrow: "價格",
     h2: `免費開始 — <em>每天 ${site.freeDailyPutts} 推。</em>`,
     lead: "免信用卡、沒有陷阱。免費方案就解鎖所有功能。想馬拉松式練習時再升級 Pro。",
+    localNote: "於 App Store 以當地貨幣顯示與計價。",
     free: {
       name: "免費",
       unit: "推 / 天",

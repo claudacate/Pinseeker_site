@@ -105,6 +105,7 @@ export const en = {
     eyebrow: "Pricing",
     h2: `Start free — <em>${site.freeDailyPutts} putts a day.</em>`,
     lead: "No credit card, no catch. Every feature is unlocked on the free plan. Go Pro only when you want marathon practice.",
+    localNote: "", // shown only for non-US locales (Apple bills in local currency)
     free: {
       name: "Free",
       unit: "putts / day",

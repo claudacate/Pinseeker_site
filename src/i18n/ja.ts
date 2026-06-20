@@ -3,7 +3,7 @@ import type { DeepPartial } from "./index";
 import type { SiteContent } from "./en";
 
 /** Japanese overrides. Untranslated keys fall back to English.
- * NEEDS NATIVE-SPEAKER REVIEW. */
+ * Native-speaker reviewed. */
 export const ja: DeepPartial<SiteContent> = {
   meta: {
     title: "PinSeeker — iPhoneカメラのパッティングコーチ",
@@ -96,6 +96,7 @@ export const ja: DeepPartial<SiteContent> = {
     eyebrow: "料金",
     h2: `無料で開始 — <em>1日${site.freeDailyPutts}パット。</em>`,
     lead: "クレジットカード不要、面倒なし。無料プランで全機能が使えます。マラソン練習をしたいときだけProへ。",
+    localNote: "App Storeでは現地通貨で表示・課金されます。",
     free: {
       name: "無料",
       unit: "パット / 日",

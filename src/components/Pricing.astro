@@ -36,6 +36,8 @@ const t = getContent(lang).pricing;
       </article>
     </div>
 
+    {t.localNote && <p class="pricing__local">{t.localNote}</p>}
+
     <div class="pricing__cta">
       <AppStoreBadge showTrial={false} lang={lang} />
     </div>
@@ -75,6 +77,10 @@ const t = getContent(lang).pricing;
     width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
   }
 
+  .pricing__local {
+    text-align: center; color: var(--ink-faint); font-size: 0.85rem;
+    margin-top: 1.25rem; max-width: 760px; margin-inline: auto;
+  }
   .pricing__cta { display: flex; justify-content: center; margin-top: clamp(2rem, 5vw, 3rem); }
 
   @media (max-width: 620px) {

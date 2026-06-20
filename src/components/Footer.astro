@@ -6,6 +6,12 @@ interface Props { lang?: Locale }
 const { lang = defaultLocale } = Astro.props;
 const t = getContent(lang).footer;
 const year = new Date().getFullYear();
+const icons: Record<string, string> = {
+  YouTube:
+    '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M23.5 6.5a3 3 0 0 0-2.1-2.1C19.5 3.9 12 3.9 12 3.9s-7.5 0-9.4.5A3 3 0 0 0 .5 6.5 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.5 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.5zM9.6 15.5v-7l6.3 3.5-6.3 3.5z"/></svg>',
+  Instagram:
+    '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.3 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.3 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.3-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.3-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4 1.3-.1 1.7-.1 4.9-.1zm0 1.8c-3.1 0-3.5 0-4.7.1-1.2.1-1.8.2-2.2.4-.5.2-.9.5-1.3.8-.3.4-.6.8-.8 1.3-.2.4-.3 1-.4 2.2-.1 1.2-.1 1.6-.1 4.7s0 3.5.1 4.7c.1 1.2.2 1.8.4 2.2.2.5.5.9.8 1.3.4.3.8.6 1.3.8.4.2 1 .3 2.2.4 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c1.2-.1 1.8-.2 2.2-.4.5-.2.9-.5 1.3-.8.3-.4.6-.8.8-1.3.2-.4.3-1 .4-2.2.1-1.2.1-1.6.1-4.7s0-3.5-.1-4.7c-.1-1.2-.2-1.8-.4-2.2-.2-.5-.5-.9-.8-1.3-.4-.3-.8-.6-1.3-.8-.4-.2-1-.3-2.2-.4-1.2-.1-1.6-.1-4.7-.1zm0 3.1a4.9 4.9 0 1 1 0 9.8 4.9 4.9 0 0 1 0-9.8zm0 8.1a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4zm6.3-8.3a1.1 1.1 0 1 1-2.3 0 1.1 1.1 0 0 1 2.3 0z"/></svg>',
+};
 const socials = [
   { name: "YouTube", url: site.social.youtube },
   { name: "Instagram", url: site.social.instagram },
@@ -22,7 +28,10 @@ const socials = [
           <span class="footer__colhead">{t.follow}</span>
           <div class="footer__social-links">
             {socials.map((s) => (
-              <a href={s.url} target="_blank" rel="noopener">{s.name}</a>
+              <a href={s.url} target="_blank" rel="noopener" aria-label={s.name}>
+                <Fragment set:html={icons[s.name]} />
+                <span>{s.name}</span>
+              </a>
             ))}
           </div>
         </div>
@@ -72,9 +81,19 @@ const socials = [
     font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em;
     text-transform: uppercase; color: var(--ink-faint);
   }
-  .footer__social-links { display: flex; gap: 1rem; margin-top: 0.5rem; }
-  .footer__social-links a { color: var(--text-dim); font-size: 0.95rem; }
-  .footer__social-links a:hover { color: var(--accent); }
+  .footer__social-links { display: flex; gap: 0.7rem; margin-top: 0.6rem; }
+  .footer__social-links a {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    color: var(--text); font-size: 0.95rem; font-weight: 600;
+    border: 1px solid var(--line); border-radius: 999px;
+    padding: 0.45rem 0.9rem;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+  }
+  .footer__social-links a:hover {
+    color: var(--accent); border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+  .footer__social-links svg { width: 1.15rem; height: 1.15rem; fill: currentColor; }
 
   .footer__bottom {
     margin-top: 2.5rem;

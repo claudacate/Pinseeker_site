@@ -18,9 +18,7 @@ export const site = {
   // Social channels — paste full URLs once the channels exist. Each footer
   // link auto-hides while its URL is empty.
   social: {
-    // Channel-ID URL (permanent — survives handle/name changes). Swap to a
-    // pretty @handle URL only once a stable TempoSeeker handle is set.
-    youtube: "https://www.youtube.com/channel/UCfp_ohIV6-VapiH1J4SKz6Q",
+    youtube: "https://www.youtube.com/@TempoSeeker",
     instagram: "",
   },
 

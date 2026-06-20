@@ -20,6 +20,6 @@ export const site = {
   pricePerMonth: "$9.99",
   pricePerYear: "$109.99",
 
-  // Contact / legal (drafted in Phase 7)
-  supportEmail: "hello@pinseeker.app",
+  // Contact / legal — office email
+  supportEmail: "pinseeker2026@gmail.com",
 } as const;

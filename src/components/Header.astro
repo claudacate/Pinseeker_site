@@ -1,0 +1,31 @@
+---
+import LangSwitcher from "./LangSwitcher.astro";
+import { localized, defaultLocale, type Locale } from "../i18n";
+
+interface Props { lang?: Locale }
+const { lang = defaultLocale } = Astro.props;
+---
+
+<header class="topbar">
+  <div class="container topbar__inner">
+    <a class="topbar__brand" href={localized("/", lang)}>PinSeeker</a>
+    <LangSwitcher lang={lang} />
+  </div>
+</header>
+
+<style>
+  .topbar { border-bottom: 1px solid var(--line); }
+  .topbar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 0.85rem;
+  }
+  .topbar__brand {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--accent);
+  }
+</style>

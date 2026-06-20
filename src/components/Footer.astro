@@ -1,7 +1,6 @@
 ---
 import { site } from "../config";
 import { getContent, defaultLocale, type Locale } from "../i18n";
-import LangSwitcher from "./LangSwitcher.astro";
 
 interface Props { lang?: Locale }
 const { lang = defaultLocale } = Astro.props;
@@ -14,7 +13,6 @@ const year = new Date().getFullYear();
     <div class="footer__brand">
       <span class="footer__wordmark">PinSeeker</span>
       <p class="footer__tagline">{t.tagline}</p>
-      <LangSwitcher lang={lang} />
     </div>
 
     <nav class="footer__links" aria-label="Footer">

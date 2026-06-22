@@ -28,5 +28,5 @@ export const site = {
   pricePerYear: "$109.99",
 
   // Contact / legal — office email
-  supportEmail: "pinseeker2026@gmail.com",
+  supportEmail: "temposeeker2026@gmail.com",
 } as const;

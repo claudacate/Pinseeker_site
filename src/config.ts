@@ -24,8 +24,8 @@ export const site = {
 
   // Offer (from App Store ASO metadata): freemium — free daily putts, paid Pro.
   freeDailyPutts: 10,
-  pricePerMonth: "$9.99",
-  pricePerYear: "$109.99",
+  pricePerMonth: "US$9.99",
+  pricePerYear: "US$109.99",
 
   // Contact / legal — office email
   supportEmail: "temposeeker2026@gmail.com",
